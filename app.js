@@ -9,15 +9,19 @@ const getWeatherData = async () => {
 };
 
 const printCurrentWeatherMessage = async () => {
-  const {
-    current: { temperature, feelslike, weather_descriptions },
-  } = await getWeatherData();
+  try {
+    const {
+      current: { temperature, feelslike, weather_descriptions },
+    } = await getWeatherData();
 
-  const weatherDescription = weather_descriptions.join(',');
+    const weatherDescription = weather_descriptions.join(',');
 
-  const message = `${weatherDescription}. It is currently ${temperature}°C and it feels like ${feelslike}°C.`;
+    const message = `${weatherDescription}. It is currently ${temperature}°C and it feels like ${feelslike}°C.`;
 
-  console.log(message);
+    console.log(message);
+  } catch (e) {
+    console.log(`[weatherstack api] Something went wrong: ${e.message}`);
+  }
 };
 
 const getLAGeoData = async () => {
@@ -33,9 +37,13 @@ const getLAGeoData = async () => {
 };
 
 const printLACoords = async () => {
-  const [lon, lat] = await getLAGeoData();
-
-  console.log(`LA longitude: ${lon} and latitude: ${lat}`);
+  try {
+    const [lon, lat] = await getLAGeoData();
+    console.log(`LA longitude: ${lon} and latitude: ${lat}`);
+  } catch (e) {
+    console.log(`[mapbox api] Something went wrong: ${e.message}`);
+  }
 };
 
-printLACoords();
+// printCurrentWeatherMessage();
+// printLACoords();
